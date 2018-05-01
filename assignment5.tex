@@ -1,0 +1,113 @@
+\documentclass{exercise}
+\setcounter{exercise}{5}
+%\title{ \line(1,0){415} \\ Foundations of Computing I -\\ Assignment 1 \theexercise\\\vspace{1em}
+%\large{Variables, Sets, Logic of Statements, Elementary Number Theory and Proofing} \\ \line(1,0){415}}
+\title{ \line(1,0){415} \\ Formale Grundlagen der Informatik I -\\ Assignment \theexercise\\
+\line(1,0){415}}
+
+\lefttitle{UZH Z\"urich\\Institut f\"ur Informatik \newline \\Student Name: Melanie Salzer \\Matrikel-Nr: 16-922-593\newline \\Student Name: Christian Birchler \\Matrikel-Nr: 15-924-160
+}
+\righttitle{FS 2018} 
+\lowerright{}
+
+\usepackage[DIV11]{typearea}
+%\usepackage[english]{babel}
+\usepackage[ansinew, utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[scaled=.95]{helvet}
+\usepackage{courier}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{mathrsfs}
+
+\usepackage{tikz}
+\usepackage{tkz-graph}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+\usepackage{etoolbox}
+
+\usepackage{centernot}
+
+\renewcommand{\lnot}{\mathord{\sim}}
+%\newcommand{\solution}[1]{\iftrue \textcolor{blue}{#1} \fi} % Switch to iftrue to show the solutions
+\newcommand{\solution}[1]{\iffalse \textcolor{blue}{#1} \fi} % Switch to iftrue to show the solutions
+
+\sloppy
+\begin{document}
+\maketitle
+
+\begin{center}
+  %Distributed: 21.09.2015 - Due Date: 18.10.2015\\\vspace{1em}
+  %Upload your solutions to the OLAT system.
+	Hand out: 27.04.2018 - Due to: 17.05.2018\\\vspace{1em}
+  Upload the solutions to the Olat system.
+\end{center}
+
+
+\task{Relations und Functions}
+
+\subtask Let $R$ be a relation which describes a date with a week day. For example: (2018-05-01, Tuesday) $\in R$, because May 1. 2018 is a Tuesday.
+
+\begin{enumerate}
+	\item Is $R$ a function?\newline
+    $R$ is a function because every date gets assigned to a weekday, and there are never two weekdays for one date.
+	\item Is the inverse, $R^{-1}$, a function?\newline
+    The inverse is not a function because for one weekday there are several dates.
+\end{enumerate}
+
+
+\subtask Let $S_1 = \{ a, b, c, d, e \}$ be a set and $R_1 \subseteq S_1 \times S_1$ a binary relation where the following applications hold:\\
+
+$c\, R_1\, b$, $e\, R_1\, a$, $a\, R_1\, a$, $c\, R_1\, c$, $d\, R_1\, b$, $d\, R_1\, d$, $b\, R_1\, a$, $e\, R_1\, e$, $b\, R_1\, b$\\
+
+Is this relation
+\begin{enumerate}
+	\item asymmetric?
+	No. Example: $cR_1c$
+	\item antisymmetric?
+	Yes. $\forall x,y \in S_1: $ if $ xRy$ and $yRx \rightarrow x=y$
+	\item transitive? No. Example: $dRb, bRa$ but $d\not{R} a$
+	\item reflexive? Yes. $\forall x \in S_1:xRx $
+\end{enumerate}
+
+\subtask Let $A := \{1,2,3,\ldots,8\}$ and $R$ a relation defined as
+ \begin{displaymath}
+  R = \{(x,y) \; | \; x=5^i\mod 9, \; y= i, \;  i\in A\}. %\text{ f\"ur } i \in B.
+ \end{displaymath}%
+Is $R$ a function of $A$ to $A$? Argue why or why not.\newline
+It is not a function because $x=3$ has no value $y$.
+
+\subtask Let $\textbf{O}$ be the set of all odd integers. Prove that $\textbf{O}$ has the same cardinality as $2\textbf{Z}$, the set of all even integers.\newline
+$x\in O, y\in 2Z, f(x)=x+1=y$ \newline
+Injective: $x_1,x_2 \in O, f(x_1)=f(x_2) \Rightarrow x_1+1=x_2+1 \Rightarrow x_1=x_2$ thus it is injective.\newline
+Surjective: $\forall y \in 2Z,x\in O, y-1=x=f(x)$ so it is surjective.\newline
+There is a bijective function from $O$ to $2Z$ which proves that they have the same cardinality.
+
+\subtask Let $R$ be a relation on a set $A$ and suppose $R$ is symmetric and transitive. Prove the following: If for every $x \in A$ there is a $y \in A$ such that $x R y$, then $R$ is an equivalence relation.\newline
+The relation needs to be symmetric, reflexive and transitive in order to be an equivalence relation. So it needs to be shown that the relation is reflexive.\newline
+$\forall x\in A \exists y\in A:xRy$. Because of symmetry it applies that $xRy$ and $yRx$. Because of transitivity it follows that $xRy$ and $yRx \Rightarrow xRx$. The relation is reflexive and therefore it is an equivalence relation.
+
+\task{Linear homogeneous recursive equations of 3.\ order}
+Given a recursive equation
+\begin{displaymath}
+ a_k = 2a_{k-1} + a_{k-2} - 2a_{k-3}
+\end{displaymath}
+and the starting conditions
+\begin{displaymath}
+a_0 = 6 \text{ and } a_1 = 6 \text{ and } a_2 = 12.
+\end{displaymath}
+Derive a closed formula for $a_k$.
+
+\textit{Hint: Use an extension of the approach for recursive equations of second order. This means, determine the roots $r_1,r_2, r_3$ of the characteristic equation $$t^3 - 2t^2 - t + 2 = 0.$$ Then $a_k = Ar_1^k + Br_2^k + Cr_3^k$ holds, where $A, B$ and $C$ can be determined by the starting conditions.}\newline
+$t^3-2t^2-t+2=(t+1)(t-1)(t-2)=0\Rightarrow r_1=1,r_2=2,r_3=-1$\newline
+$a_k=A+2^kB+(-1)^kC$\newline
+$a_0=A+B+C=6$\newline
+$a_1=A+2B-C=6$\newline
+$a_2=A+4B+C=12$\newline
+It follows that $A=3,B=2,C=1$ and so $a_k=3+2^{k+1}+(-1)^k$
+
+\end{document}
